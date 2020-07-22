@@ -336,7 +336,7 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
                                 <div className="condensed-list">
                                     <h6 className="condensed-list-header bg-darker-2 p-2 flex-center">
                                         <FontIcon className="mr-1" iconName="Insights" />
-                                        <span>Analyze</span>
+                                        <span>Display Results</span>
                                     </h6>
                                     <div className="p-3">
                                         <div className="container-space-between">
@@ -421,8 +421,6 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
         console.log("displayResultPage onFormSubmit get called");
         var sas = formData["sas"].trim();
         var folderPath = formData["folderPath"];
-        console.log("sas: " + sas);
-        console.log("folderPath: " + folderPath);
         console.log("init assets.length: " + this.state.assets.length);
         this.getPrediction(sas, folderPath)
             .then((result) => {
@@ -546,11 +544,6 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
 
     private async getPrediction(sas: string, folderPath: string): Promise<any> {
         console.log("getPrediction get called, past in sas: " + sas + " folderPath: " + folderPath);
-        //connect to blob container get all files
-        // test purpose
-        sas = "https://ninwan.blob.core.windows.net/avidreport?st=2020-07-18T18%3A32%3A38Z&se=2021-07-19T18%3A32%3A00Z&sp=racwdl&sv=2018-03-28&sr=c&sig=Uy9qH8V6CJxvmrgyl7luhaT34l8i5V3MZZHFDFojKjU%3D";
-        folderPath = "predictiontest";
-        console.log("locally set, sas: " + sas + " folderPath: " + folderPath);
         
         let storageOption = { sas: sas };
         this.azureBlobStorage = new AzureBlobStorage(storageOption);
