@@ -247,6 +247,34 @@ export class AzureBlobStorage implements IStorageProvider {
     }
 
     /**
+     * Retrieves assets from Azure Blob Storage container
+     */
+    public async getInvoicePredictionAssets(folderPath?: string): Promise<IAsset[]> {
+        const files: string[] = await this.listFiles(folderPath);
+        console.log("files inside getInvoicePredictionAssets: " + files.length);
+        const result: IAsset[] = [];
+        for (const file of files) {
+            const url = this.getUrl(file);
+            const asset = await AssetService.createAssetFromFilePath(url, this.getFileName(url));
+            if (this.isSupportedAssetType(asset.type)) {
+                const invoicePredictionFileName = decodeURIComponent(`${asset.name}${constants.invoiceFileExtension}`);
+                const ocrFileName = decodeURIComponent(`${asset.name}${constants.ocrFileExtension}`);
+
+                if (files.find((str) => str === invoicePredictionFileName)) {
+                    asset.state = AssetState.Tagged;
+                } else if (files.find((str) => str === ocrFileName)) {
+                    asset.state = AssetState.Visited;
+                } else {
+                    asset.state = AssetState.NotVisited;
+                }
+
+                result.push(asset);
+            }
+        }
+        return result;
+    }
+
+    /**
      *
      * @param url - URL for Azure Blob
      */

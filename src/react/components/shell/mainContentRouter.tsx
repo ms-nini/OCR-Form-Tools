@@ -7,6 +7,7 @@ import HomePage from "../pages/homepage/homePage";
 import AppSettingsPage from "../pages/appSettings/appSettingsPage";
 import TrainPage from "../pages/train/trainPage";
 import ConnectionPage from "../pages/connections/connectionsPage";
+import DisplayResultPage from "../pages/displayResultPage/displayResultPage";
 import EditorPage from "../pages/editorPage/editorPage";
 import ProjectSettingsPage from "../pages/projectSettings/projectSettingsPage";
 import ModelComposePage from "../pages/modelCompose/modelCompose";
@@ -26,6 +27,7 @@ export function MainContentRouter() {
                 <Route path="/settings" component={AppSettingsPage} />
                 <Route path="/connections/:connectionId" component={ConnectionPage} />
                 <Route path="/connections" exact component={ConnectionPage} />
+                <Route path="/displayresult" exact component={DisplayResultPage} />
                 <Route path="/projects/:projectId/edit" component={EditorPage} />
                 <Route path="/projects/create" component={ProjectSettingsPage} />
                 <Route path="/projects/:projectId/modelcompose" component={ModelComposePage} />

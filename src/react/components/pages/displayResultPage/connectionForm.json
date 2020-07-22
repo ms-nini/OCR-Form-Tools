@@ -1,0 +1,20 @@
+{
+    "title": "${strings.connections.providers.azureBlob.title}",
+    "description": "${strings.connections.providers.azureBlob.description}",
+    "required": [
+        "sas"
+    ],
+    "type": "object",
+    "properties": {
+        "sas": {
+            "title": "${strings.connections.providers.azureBlob.sas.title}",
+            "description": "${strings.connections.providers.azureBlob.sas.description}",
+            "type": "string"
+        },
+        "folderPath": {
+            "title": "Folder path",
+            "description": "Subfolder path to your files",
+            "type": "string"
+        }
+    }
+}
