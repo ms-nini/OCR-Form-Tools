@@ -159,6 +159,7 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
 
     private imageMap: ImageMap;
     private azureBlobStorage: AzureBlobStorage;
+    private folderPath: string;
     private invoiceResultService: InvoiceResultService;
     private tags: ITag[] = [
         {
@@ -242,8 +243,18 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
     ]
 
     public async componentDidMount() {
+        window.addEventListener("focus", this.onFocused);
+
         document.title = strings.displayResult.title + " - " + strings.appName;
         console.log("document.title: " + document.title);
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener("focus", this.onFocused);
+    }
+
+    private onFocused = () => {
+        this.loadInvoiceAssets();
     }
 
     public componentDidUpdate(prevProps: Readonly<IDisplayResultPageProps>, prevState: Readonly<IDisplayResultPageState>) {
@@ -546,19 +557,28 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
         console.log("getPrediction get called, past in sas: " + sas + " folderPath: " + folderPath);
         
         let storageOption = { sas: sas };
+        this.folderPath = folderPath;
         this.azureBlobStorage = new AzureBlobStorage(storageOption);
         this.invoiceResultService = new InvoiceResultService(this.azureBlobStorage);
-        const assets = await this.azureBlobStorage.getInvoicePredictionAssets(folderPath);
+        await this.loadInvoiceAssets();
+        console.log("getPrediction this.state.assets.length: " + this.state.assets.length);
+        console.log("displayResultPage getPrediction first asset name: " + this.state.assets[0].name);
+        console.log("displayResultPage getPrediction first asset path: " + this.state.assets[0].path);
+    }
+
+    private async loadInvoiceAssets(): Promise<any> {
+        console.log("loadInvoiceAssets get called, this.azureBlobStorage: " + this.azureBlobStorage + " this.folderPath: " + this.folderPath);
+        if (!this.azureBlobStorage) {
+            return;
+        }
+        const assets = await this.azureBlobStorage.getInvoicePredictionAssets(this.folderPath);
         console.log("displayResultPage getPrediction assets.length: " + assets.length);
         const verifiedAssets = assets.map((asset) => {
             asset.name = decodeURIComponent(asset.name);
             return asset;
-        }).filter((asset) => this.isInExactFolderPath(asset.name, folderPath));
-        console.log("displayResultPage getPrediction verifiedAssets.length: " + verifiedAssets.length);
+        }).filter((asset) => this.isInExactFolderPath(asset.name, this.folderPath));
+        console.log("displayResultPage loadInvoiceAssets verifiedAssets.length: " + verifiedAssets.length);
         this.setState({assets: verifiedAssets});
-        console.log("getPrediction this.state.assets.length: " + this.state.assets.length);
-        console.log("displayResultPage getPrediction first asset name: " + this.state.assets[0].name);
-        console.log("displayResultPage getPrediction first asset path: " + this.state.assets[0].path);
     }
 
     private isInExactFolderPath = (assetName: string, normalizedPath: string): boolean => {
