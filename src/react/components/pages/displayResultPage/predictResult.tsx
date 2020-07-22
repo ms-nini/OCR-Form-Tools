@@ -4,9 +4,6 @@
 import React from "react";
 import { ITag } from "../../../../models/applicationState";
 import "./predictResult.scss";
-import { getPrimaryGreenTheme } from "../../../../common/themes";
-import { PrimaryButton } from "@fluentui/react";
-import PredictModelInfo from './predictModelInfo';
 
 export interface IAnalyzeModelInfo {
     docType: string,

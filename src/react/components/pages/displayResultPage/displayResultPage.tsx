@@ -94,6 +94,7 @@ export interface IDisplayResultPageState {
     pdfFile: any;
     invoiceAnalyzeResult: {};
     invoiceResultForCurrentPage: any;
+    predictRun: boolean;
 }
 
 export interface IModel {
@@ -153,6 +154,7 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
         pdfFile: null,
         invoiceAnalyzeResult: null,
         invoiceResultForCurrentPage: {},
+        predictRun: false,
     };
 
     private imageMap: ImageMap;
@@ -384,9 +386,11 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
                                                 onPredictionMouseLeave={this.onPredictionMouseLeave}
                                             />
                                         }
-                                        {Object.keys(predictions).length === 0 &&
+                                        {
+                                            (Object.keys(predictions).length === 0 && this.state.predictRun) &&
                                             <div>
                                                 No field can be extracted.
+
                                             </div>
                                         }
                                     </div>
@@ -698,7 +702,8 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
         try {
             const invoiceAnalyzeResult = await this.invoiceResultService.getRecognizedText(asset.path, asset.name);
             this.setState({
-                invoiceAnalyzeResult
+                invoiceAnalyzeResult,
+                predictRun: true,
             }, () => {
                 const features = [];
                 const imageExtent = [0, 0, this.state.imageWidth, this.state.imageHeight];
