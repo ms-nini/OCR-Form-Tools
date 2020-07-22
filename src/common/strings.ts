@@ -256,6 +256,9 @@ export interface IAppStrings {
             checkboxPerTagLimit: string;
         }
     };
+    displayResult: {
+        title: string;
+    };
     connections: {
         title: string;
         details: string;

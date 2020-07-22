@@ -258,6 +258,9 @@ export const spanish: IAppStrings = {
             vertiline: "Linea vertical",
         },
     },
+    displayResult: {
+        title: "Resultados de predicción de facturas",
+    },
     connections: {
         title: "Conexiones",
         new: "Nueva conexión",

@@ -257,6 +257,9 @@ export const english: IAppStrings = {
             vertiline: "Vertical line",
         },
     },
+    displayResult: {
+        title: "Invoice Prediction Results",
+    },
     connections: {
         title: "Connections",
         details: "Connection Details",
