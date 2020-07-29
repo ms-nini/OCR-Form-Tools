@@ -254,7 +254,8 @@ export default class DisplayResultPage extends React.Component<IDisplayResultPag
     }
 
     private onFocused = () => {
-        this.loadInvoiceAssets();
+        // This approach will remove the entered sas everytime swich window, need to figure a better solution
+        // this.loadInvoiceAssets();
     }
 
     public componentDidUpdate(prevProps: Readonly<IDisplayResultPageProps>, prevState: Readonly<IDisplayResultPageState>) {
